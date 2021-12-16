@@ -49,6 +49,7 @@ public class ShrinkingPlatform : MonoBehaviour
     {
         if (isShrinking)
         {
+            //shrinking
             if (transform.localScale.x >= 0.01)
             {
                 transform.localScale -= Vector3.one * shrinkingSpeed * Time.deltaTime;
@@ -56,11 +57,13 @@ public class ShrinkingPlatform : MonoBehaviour
             }
             else
             {
+                //Turn collision off and on so play fall off
                 StartCoroutine(turnBackOnCollision());
             }
         }
         else
         {
+            //growing
             if (transform.localScale.x <= 1)
             {
                 GetComponent<BoxCollider2D>().enabled = true;
@@ -70,6 +73,7 @@ public class ShrinkingPlatform : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //player lands on platform
         if (collision.gameObject.CompareTag("Player"))
         {
             isShrinking = true;
@@ -78,6 +82,7 @@ public class ShrinkingPlatform : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+        //player leaves platform
         if (collision.gameObject.CompareTag("Player"))
         {
             isShrinking = false;
