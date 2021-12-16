@@ -87,7 +87,7 @@ public class ShrinkingPlatform : MonoBehaviour
     {
        
         GetComponent<BoxCollider2D>().enabled = false;
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(1.5f);
         isShrinking = false;
         GetComponent<BoxCollider2D>().enabled = true;
         growingSFX.Play();
