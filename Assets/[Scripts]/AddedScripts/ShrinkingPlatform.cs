@@ -4,12 +4,13 @@
 //Summary: Controls aspects of shrinking platforms.
 //Revision History
 //-Added bobbing cycle
-//-Added Shrinking
-
+//-Added shrinking
+//-Added sounds
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class ShrinkingPlatform : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class ShrinkingPlatform : MonoBehaviour
     [Header("Shrinking")]
     private bool isShrinking;
     [SerializeField] private float shrinkingSpeed;
+    [Header("Sound")]
+    [SerializeField] private AudioSource shrinkingSFX;
+    [SerializeField] private AudioSource growingSFX;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +52,7 @@ public class ShrinkingPlatform : MonoBehaviour
             if (transform.localScale.x >= 0.01)
             {
                 transform.localScale -= Vector3.one * shrinkingSpeed * Time.deltaTime;
+                
             }
             else
             {
@@ -66,6 +73,7 @@ public class ShrinkingPlatform : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             isShrinking = true;
+            shrinkingSFX.Play();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -73,6 +81,7 @@ public class ShrinkingPlatform : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             isShrinking = false;
+            growingSFX.Play();
         }
     }
 
