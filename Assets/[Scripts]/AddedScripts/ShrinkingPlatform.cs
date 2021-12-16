@@ -44,21 +44,24 @@ public class ShrinkingPlatform : MonoBehaviour
         transform.position = new Vector3(bobbingPosition.x,
                 bobbingPosition.y + Mathf.PingPong(Time.time, bobbingDistance), 0.0f);
     }
-
     private void _shinrking()
     {
         if (isShrinking)
         {
             //shrinking
-            if (transform.localScale.x >= 0.01)
+            if (transform.localScale.x > 0.02)
             {
                 transform.localScale -= Vector3.one * shrinkingSpeed * Time.deltaTime;
                 
             }
             else
             {
-                //Turn collision off and on so play fall off
-                StartCoroutine(turnBackOnCollision());
+                //Conroutine will only go off once
+                if(GetComponent<BoxCollider2D>().enabled != false)
+                {
+                    //Turn collision off and on so play fall off
+                    StartCoroutine(turnBackOnCollision());
+                }
             }
         }
         else
@@ -80,20 +83,13 @@ public class ShrinkingPlatform : MonoBehaviour
             shrinkingSFX.Play();
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        //player leaves platform
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            isShrinking = false;
-            growingSFX.Play();
-        }
-    }
-
     IEnumerator turnBackOnCollision()
     {
+       
         GetComponent<BoxCollider2D>().enabled = false;
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(3.0f);
+        isShrinking = false;
         GetComponent<BoxCollider2D>().enabled = true;
+        growingSFX.Play();
     }
 }
